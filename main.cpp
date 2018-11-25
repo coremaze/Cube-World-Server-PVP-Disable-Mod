@@ -16,6 +16,9 @@ void __declspec(naked) ASMRemovePVPDamage(){
     asm("cmp dword ptr [ebx+0xC], 0");
     asm("ja 0f"); //Do nothing if high DWORD of target GUID is > 0
 
+    asm("test dword ptr [ebx+0x10], 0x80000000");
+    asm("jnz 0f"); //Do nothing if sign of damage is negative.
+
     asm("mov dword ptr [ebx+0x10], 0"); //Set damage to 0 if it fell through everything else (ie, it's pvp)
     asm("mov dword ptr [ebx+0x14], 0"); //Set critical to 0
     asm("mov dword ptr [ebx+0x18], 0"); //Set stun duration to 0
